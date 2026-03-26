@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/medicare?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+app:
+  jwt:
+    secret: 9a2f8c4e6b0d1a5f7e3c9b2d8a1f4e6c0b5d3a7f2e9c4b1d8a5f0e3c7b2d9a1f
+    expirationMs: 86400000
