@@ -44,33 +44,66 @@ export default function PaymentPage() {
   const [activeGateway, setActiveGateway] = useState<Gateway>("razorpay");
 
   /* ─── Razorpay Handler ─── */
-  const handleRazorpay = () => {
+  const handleRazorpay = async () => {
     if (!window.Razorpay) {
       alert("Razorpay SDK failed to load. Are you online?");
       setLoading(false);
       return;
     }
 
-    const options = {
-      key: "rzp_test_dummykey12345", // TODO: Replace with your Razorpay Key ID
-      amount: doctor.fee * 100,
-      currency: "INR",
-      name: "Dr. Gunja Gupta",
-      description: "Consultation Fee",
-      handler: function (response: any) {
-        console.log("Razorpay payment successful:", response.razorpay_payment_id);
-        window.location.href = "/confirm";
-      },
-      prefill: { name: "Patient", email: "patient@example.com", contact: "9999999999" },
-      theme: { color: "#1a3a2a" },
-    };
+    try {
+      // Step 1: Create order via backend
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+      const orderRes = await fetch(`${API_BASE}/api/payment/create-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appointmentId: 1, amount: doctor.fee }),
+      });
 
-    const rzp = new window.Razorpay(options);
-    rzp.on("payment.failed", function (response: any) {
-      alert("Payment failed: " + response.error.description);
+      if (!orderRes.ok) throw new Error("Failed to create Razorpay order");
+      const order = await orderRes.json();
+
+      // Step 2: Open Razorpay checkout with the order
+      const options = {
+        key: "rzp_test_SWQOpTUEIOTIat",
+        amount: order.amount || doctor.fee * 100,
+        currency: order.currency || "INR",
+        name: "Dr. Gunja Gupta",
+        description: "Consultation Fee",
+        order_id: order.id,
+        handler: async function (response: any) {
+          // Step 3: Verify payment on backend
+          try {
+            await fetch(`${API_BASE}/api/payment/verify-webhook`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+          } catch (e) {
+            console.error("Verification error:", e);
+          }
+          alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+          setLoading(false);
+        },
+        prefill: { name: "Patient", email: "patient@example.com", contact: "9999999999" },
+        theme: { color: "#2D70E2" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", function (response: any) {
+        alert("Oops! Something went wrong.\nPayment Failed");
+        setLoading(false);
+      });
+      rzp.open();
+    } catch (error) {
+      console.error("Razorpay error:", error);
+      alert("Unable to initiate payment. Please ensure the backend server is running.");
       setLoading(false);
-    });
-    rzp.open();
+    }
   };
 
   /* ─── Cashfree Handler ─── */
