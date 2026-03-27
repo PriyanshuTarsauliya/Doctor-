@@ -1,3 +1,4 @@
 [build]
   base = "medicare"
+  publish = "out"
   command = "npm run build"
