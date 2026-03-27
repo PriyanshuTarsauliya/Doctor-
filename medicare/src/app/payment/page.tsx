@@ -51,59 +51,40 @@ export default function PaymentPage() {
       return;
     }
 
-    try {
-      // Step 1: Create order via backend
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-      const orderRes = await fetch(`${API_BASE}/api/payment/create-order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ appointmentId: 1, amount: doctor.fee }),
-      });
-
-      if (!orderRes.ok) throw new Error("Failed to create Razorpay order");
-      const order = await orderRes.json();
-
-      // Step 2: Open Razorpay checkout with the order
-      const options = {
-        key: "rzp_test_SWQOpTUEIOTIat",
-        amount: order.amount || doctor.fee * 100,
-        currency: order.currency || "INR",
-        name: "Dr. Gunja Gupta",
-        description: "Consultation Fee",
-        order_id: order.id,
-        handler: async function (response: any) {
-          // Step 3: Verify payment on backend
-          try {
-            await fetch(`${API_BASE}/api/payment/verify-webhook`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
-          } catch (e) {
-            console.error("Verification error:", e);
-          }
-          alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+    const options = {
+      key: "rzp_test_SWQOpTUEIOTIat",
+      amount: doctor.fee * 100, // Amount in paise
+      currency: "INR",
+      name: "Dr. Gunja Gupta Clinic",
+      description: `Consultation Fee - ${doctor.specialty}`,
+      handler: function (response: any) {
+        alert("✅ Payment Successful!\n\nPayment ID: " + response.razorpay_payment_id);
+        setLoading(false);
+      },
+      prefill: {
+        name: "Patient",
+        email: "patient@example.com",
+        contact: "9999999999",
+      },
+      notes: {
+        doctor: doctor.name,
+        date: doctor.date,
+        time: doctor.time,
+      },
+      theme: { color: "#2D70E2" },
+      modal: {
+        ondismiss: function () {
           setLoading(false);
         },
-        prefill: { name: "Patient", email: "patient@example.com", contact: "9999999999" },
-        theme: { color: "#2D70E2" },
-      };
+      },
+    };
 
-      const rzp = new window.Razorpay(options);
-      rzp.on("payment.failed", function (response: any) {
-        alert("Oops! Something went wrong.\nPayment Failed");
-        setLoading(false);
-      });
-      rzp.open();
-    } catch (error) {
-      console.error("Razorpay error:", error);
-      alert("Unable to initiate payment. Please ensure the backend server is running.");
+    const rzp = new window.Razorpay(options);
+    rzp.on("payment.failed", function (response: any) {
+      alert("❌ Payment Failed\n\n" + (response.error?.description || "Something went wrong"));
       setLoading(false);
-    }
+    });
+    rzp.open();
   };
 
   /* ─── Cashfree Handler ─── */
