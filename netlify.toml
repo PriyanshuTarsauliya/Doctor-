@@ -1,0 +1,4 @@
+[build]
+  base = "medicare"
+  publish = ".next"
+  command = "npm run build"
