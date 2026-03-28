@@ -4,29 +4,25 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   Phone, Mail, MapPin, ChevronLeft, ChevronRight,
-  ArrowRight, Star, Menu, X, ShieldCheck, Award
+  ArrowRight, Star, Menu, X, Award, Shield, Globe, BarChart3
 } from "lucide-react";
 
 /* ─── Data ─── */
 const conditionTags = [
-  "Homeopathy", "Psychology", "Mind-Body Medicine", "Natural Remedies",
-  "Anxiety & Stress", "Chronic Pain", "Skin Conditions", "Digestive Health",
-  "Allergies", "Migraines", "Sleep Issues", "Emotional Wellness",
+  "Homeopathy", "Psychology", "Holistic Healing", "Anxiety Relief",
+  "Gut Health", "Mental Wellness",
 ];
-
 const benefitTags = [
-  "Gentle natural healing", "Treat the root cause", "Whole-person approach",
-  "Same-week appointments", "Individualized remedies", "Personalized treatment plans",
-  "MA in Psychology", "Trusted by 2,000+ patients", "Virtual visits available",
-  "Certified homeopath",
+  "Depression Therapy", "Chronic Care", "Stress Management",
+  "Immune Boost", "CBT Therapy", "Family Counseling",
 ];
 
 const services = [
-  { num: "01", title: "Homeopathic Consult", desc: "In-depth constitutional assessment and individualized remedy selection based on your unique symptom profile." },
-  { num: "02", title: "Psychological Support", desc: "Evidence-based counseling and therapeutic conversations addressing anxiety, stress, and emotional well-being." },
-  { num: "03", title: "Chronic Conditions", desc: "Long-term management of persistent health issues through a combination of natural medicine and lifestyle guidance." },
-  { num: "04", title: "Mind-Body Therapy", desc: "Integrated sessions bridging physical symptoms with emotional and psychological roots for lasting relief." },
-  { num: "05", title: "Telehealth", desc: "Convenient virtual consultations from the comfort of your home — same quality of care, no commute required." },
+  { num: "01", title: "Constitutional Homeopathy", desc: "Personalized remedies that stimulate your body's natural healing responses for long-term chronic relief.", icon: "💧" },
+  { num: "02", title: "Clinical Psychology", desc: "Evidence-based talk therapy focusing on anxiety, depression, and trauma-informed behavioral shifts.", icon: "🧠" },
+  { num: "03", title: "Integrative Wellness", desc: "A hybrid approach combining both disciplines for complex psychosomatic conditions and burnout.", icon: "🌿" },
+  { num: "04", title: "Pediatric Homeopathy", desc: "Gentle, side-effect-free treatments for children's immunity, allergies, and behavioral development.", icon: "🌱" },
+  { num: "05", title: "Relationship Counseling", desc: "Guided sessions to restore communication and emotional intimacy within couples and families.", icon: "👥" },
 ];
 
 const bookingSteps = [
@@ -35,9 +31,7 @@ const bookingSteps = [
   { num: "3", label: "Your Details" },
 ];
 
-const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-const aboutTags = ["Homeopathy", "MA Psychology", "Mind-Body Medicine", "Natural Healing"];
+const days = ["S", "M", "T", "W", "T", "F", "S"];
 
 /* ─── Component ─── */
 export default function LandingPage() {
@@ -68,7 +62,7 @@ export default function LandingPage() {
       }
     } catch {
       console.warn("Backend not reachable, using fallback time slots.");
-      setAvailableSlots(["09:00 AM", "10:00 AM", "11:30 AM", "01:00 PM", "02:30 PM", "04:00 PM"]);
+      setAvailableSlots(["09:00 AM", "10:30 AM", "02:00 PM", "04:30 PM"]);
     } finally {
       setLoadingSlots(false);
     }
@@ -82,36 +76,23 @@ export default function LandingPage() {
   const submitBooking = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!name || !email || !selectedDate || !selectedTime) return;
-    
     setIsBooking(true);
     try {
-      // Create ISO dateTime string
       const dateStr = `2026-03-${selectedDate.toString().padStart(2, "0")}`;
-      
-      const payload = {
-        name,
-        email,
-        phone,
-        doctorId: 1, // hardcoded for Dr. Gunja
-        dateTime: `${dateStr}T10:00:00` // Mock proper ISO string parsing for simplicity
-      };
-
+      const payload = { name, email, phone, doctorId: 1, dateTime: `${dateStr}T10:00:00` };
       const res = await fetch("http://localhost:8080/api/public/book-guest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
-
       if (res.ok) {
         const appointment = await res.json();
-        // Option 1: Store in local storage/context, Option 2: Pass as URL param
         window.location.href = `/payment?appointmentId=${appointment.id}&amount=800`;
       } else {
         throw new Error("Booking failed");
       }
     } catch {
       console.warn("Backend not reachable, redirecting to payment page directly.");
-      // Fallback
       window.location.href = `/payment?amount=800`;
     } finally {
       setIsBooking(false);
@@ -122,33 +103,37 @@ export default function LandingPage() {
     <div className="min-h-screen" style={{ background: "var(--color-cream)" }}>
 
       {/* ━━━ TOP BANNER ━━━ */}
-      <div className="text-center py-2.5 text-[11px] sm:text-xs font-medium tracking-wide"
+      <div
+        className="text-center py-2.5 text-xs sm:text-sm font-medium tracking-wide"
         style={{ background: "var(--color-sage-muted)", color: "var(--color-forest)" }}>
-        ✦ Now accepting new patients — <a href="#booking" className="underline font-semibold hover:opacity-80">Book your visit today</a>
+        Now accepting new patients —{" "}
+        <a href="#booking" className="underline font-semibold hover:opacity-80 transition-opacity">
+          Book your visit today
+        </a>
       </div>
 
-      {/* ━━━ STICKY NAV ━━━ */}
-      <nav className="sticky top-0 z-40 backdrop-blur-md border-b"
-        style={{ background: "rgba(247,243,237,0.92)", borderColor: "var(--color-border)" }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      {/* ━━━ STICKY NAV (Frosted Glass) ━━━ */}
+      <nav
+        className="sticky top-0 z-50 backdrop-blur-xl shadow-sm"
+        style={{ background: "rgba(247,243,237,0.80)", boxShadow: "0 1px 3px rgba(91,126,95,0.05)" }}>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 sm:h-[72px] flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex flex-col leading-tight">
-            <span className="text-sm sm:text-base font-bold tracking-tight"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-              Dr. Gunja Gupta
-            </span>
-            <span className="text-[10px] tracking-widest uppercase"
-              style={{ color: "var(--color-text-muted)", fontFamily: "var(--font-body)" }}>
-              Homeopathy & Psychology
-            </span>
+          <a href="#" className="text-2xl italic"
+            style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+            Dr. Gunja Gupta
           </a>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {["About", "Services", "Contact"].map((link) => (
+          <div className="hidden md:flex items-center gap-10">
+            {["About", "Services", "Contact"].map((link, i) => (
               <a key={link} href={`#${link.toLowerCase()}`}
-                className="text-[13px] font-medium transition-colors duration-200 hover:opacity-70"
-                style={{ color: "var(--color-text-secondary)" }}>
+                className="text-sm transition-opacity duration-300 hover:opacity-70"
+                style={{
+                  color: i === 0 ? "var(--color-forest)" : "var(--color-text-secondary)",
+                  fontWeight: i === 0 ? 600 : 400,
+                  borderBottom: i === 0 ? "2px solid var(--color-forest)" : "none",
+                  paddingBottom: "2px",
+                }}>
                 {link}
               </a>
             ))}
@@ -157,17 +142,19 @@ export default function LandingPage() {
           {/* CTA + mobile toggle */}
           <div className="flex items-center gap-3">
             <a href="#booking"
-              className="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 text-[13px] font-semibold text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-sage)]/20 hover:-translate-y-0.5"
+              className="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-white rounded-full transition-opacity duration-300 hover:opacity-80"
               style={{ background: "var(--color-sage-dark)" }}>
               Book appointment
             </a>
             <button className="md:hidden p-2 rounded-lg" onClick={() => setMobileNav(!mobileNav)}>
-              {mobileNav ? <X size={22} style={{ color: "var(--color-forest)" }} /> : <Menu size={22} style={{ color: "var(--color-forest)" }} />}
+              {mobileNav
+                ? <X size={22} style={{ color: "var(--color-forest)" }} />
+                : <Menu size={22} style={{ color: "var(--color-forest)" }} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav Dropdown */}
+        {/* Mobile Nav */}
         {mobileNav && (
           <div className="md:hidden border-t px-6 py-4 space-y-3 anim-fadeIn"
             style={{ borderColor: "var(--color-border)" }}>
@@ -188,161 +175,105 @@ export default function LandingPage() {
         )}
       </nav>
 
-      {/* ━━━ HERO ━━━ */}
-      <section className="min-h-[calc(100vh-7rem)] flex items-center justify-center px-6 sm:px-8">
-        <div className="max-w-3xl mx-auto text-center anim-fadeInUp">
-          <h1 className="text-[2.5rem] sm:text-5xl md:text-[3.5rem] lg:text-[4rem] leading-[1.08] mb-7"
-            style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)", letterSpacing: "-0.025em" }}>
+      {/* ━━━ HERO (Stitch: large serif headline with blurred blobs) ━━━ */}
+      <section className="relative overflow-hidden py-24 md:py-32 flex flex-col items-center justify-center text-center px-6">
+        <div className="max-w-4xl mx-auto relative z-10 anim-fadeInUp">
+          <h1
+            className="text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.08] mb-8"
+            style={{ fontFamily: "var(--font-heading)", color: "var(--color-sage-dark)" }}>
             Healing that treats the{" "}
-            <em className="not-italic" style={{ fontStyle: "italic" }}>whole</em>{" "}
+            <em className="not-italic" style={{ fontStyle: "italic", fontWeight: 400 }}>whole</em>{" "}
             person
           </h1>
-          <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto"
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
             style={{ color: "var(--color-text-secondary)" }}>
-            Dr. Gunja Gupta combines homeopathic medicine with psychological expertise to
-            treat the whole person — mind, body, and spirit. Book your consultation
-            online in just a few clicks.
+            Experience a boutique approach to wellness where ancient homeopathic wisdom
+            meets modern clinical psychology to restore your natural balance.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-14 anim-fadeInUp delay-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 anim-fadeInUp delay-2">
             <a href="#booking"
-              className="flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-sage)]/25 hover:-translate-y-0.5"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 text-lg font-medium text-white rounded-full transition-transform hover:scale-[1.02]"
               style={{ background: "var(--color-sage-dark)" }}>
-              Book an appointment <ArrowRight size={16} />
+              Book an appointment <ArrowRight size={18} />
             </a>
-            <a href="#about"
-              className="flex items-center justify-center w-full sm:w-auto px-7 py-3.5 text-sm font-semibold rounded-full border transition-all duration-300 hover:bg-white/60"
-              style={{ color: "var(--color-forest)", borderColor: "var(--color-border)" }}>
+            <a href="#services"
+              className="w-full sm:w-auto px-8 py-4 text-lg font-medium rounded-full border-2 transition-all hover:bg-white/60"
+              style={{ color: "var(--color-sage-dark)", borderColor: "var(--color-sage-dark)" }}>
               Learn more
             </a>
           </div>
 
-          {/* Trust Metrics */}
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 anim-fadeInUp delay-3">
-            {[
-              { val: "15+", label: "years experience" },
-              { val: "2,000+", label: "patients treated" },
-            ].map((s) => (
-              <div key={s.label} className="text-center">
-                <div className="text-xl sm:text-2xl font-bold"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>{s.val}</div>
-                <div className="text-[11px] sm:text-xs mt-0.5" style={{ color: "var(--color-text-muted)" }}>{s.label}</div>
-              </div>
-            ))}
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-bold"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>4.9</span>
-                <Star size={16} fill="var(--color-gold-star)" stroke="none" />
-              </div>
-              <div className="text-[11px] sm:text-xs mt-0.5" style={{ color: "var(--color-text-muted)" }}>patient rating</div>
+          {/* Trust Metrics — with separator line */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 anim-fadeInUp delay-3"
+            style={{ borderTop: "1px solid var(--color-border)" }}>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl mb-1"
+                style={{ fontFamily: "var(--font-heading)", color: "var(--color-sage-dark)" }}>
+                15+ Years
+              </span>
+              <span className="text-sm font-medium uppercase tracking-widest"
+                style={{ color: "var(--color-text-muted)" }}>
+                Expert Practice
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl mb-1"
+                style={{ fontFamily: "var(--font-heading)", color: "var(--color-sage-dark)" }}>
+                2000+ Patients
+              </span>
+              <span className="text-sm font-medium uppercase tracking-widest"
+                style={{ color: "var(--color-text-muted)" }}>
+                Healed Lives
+              </span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="flex items-center gap-1 text-3xl mb-1"
+                style={{ fontFamily: "var(--font-heading)", color: "var(--color-sage-dark)" }}>
+                4.9 <Star size={20} fill="var(--color-gold-star)" stroke="none" />
+              </span>
+              <span className="text-sm font-medium uppercase tracking-widest"
+                style={{ color: "var(--color-text-muted)" }}>
+                Patient Rating
+              </span>
             </div>
           </div>
+        </div>
+
+        {/* Background Blurred Blobs */}
+        <div className="absolute top-0 left-0 w-full h-full -z-10 opacity-30 pointer-events-none">
+          <div className="absolute top-20 left-10 w-64 h-64 rounded-full"
+            style={{ background: "var(--color-sage-muted)", filter: "blur(100px)" }} />
+          <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full"
+            style={{ background: "var(--color-sage-light)", filter: "blur(120px)" }} />
         </div>
       </section>
 
       {/* ━━━ MARQUEE TICKER ━━━ */}
-      <section className="py-6 space-y-3 overflow-hidden anim-fadeIn delay-4">
-        <div className="overflow-hidden">
-          <div className="marquee-track">
-            {[...conditionTags, ...conditionTags].map((t, i) => (
-              <span key={`c-${i}`}
-                className="inline-flex items-center px-4 py-1.5 text-[11px] sm:text-xs font-medium rounded-full whitespace-nowrap flex-shrink-0"
-                style={{ background: "white", color: "var(--color-forest)", border: "1px solid var(--color-border)" }}>
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="overflow-hidden">
-          <div className="marquee-track-reverse">
-            {[...benefitTags, ...benefitTags].map((t, i) => (
-              <span key={`b-${i}`}
-                className="inline-flex items-center px-4 py-1.5 text-[11px] sm:text-xs font-medium rounded-full whitespace-nowrap flex-shrink-0"
-                style={{ background: "var(--color-sage-muted)", color: "var(--color-sage-dark)", border: "1px solid transparent" }}>
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ━━━ ABOUT ━━━ */}
-      <section id="about" className="section-padding">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-          {/* Image */}
-          <div className="anim-fadeInUp delay-1">
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/5]"
-              style={{ background: "linear-gradient(135deg, var(--color-sage-muted) 0%, var(--color-cream-dark) 100%)" }}>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="w-28 h-36 sm:w-36 sm:h-44 rounded-xl flex items-center justify-center text-4xl sm:text-5xl font-bold mb-4"
-                  style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(10px)", color: "var(--color-forest)", fontFamily: "var(--font-heading)" }}>
-                  GG
-                </div>
-                <span className="text-sm font-semibold mt-1"
-                  style={{ color: "var(--color-forest)", fontFamily: "var(--font-heading)" }}>
-                  Dr. Gunja Gupta
+      <section className="py-12 overflow-hidden anim-fadeIn delay-4"
+        style={{ background: "var(--color-cream-light)" }}>
+        <div className="flex flex-col gap-6">
+          {/* Row 1 */}
+          <div className="overflow-hidden">
+            <div className="marquee-track">
+              {[...conditionTags, ...conditionTags, ...conditionTags].map((t, i) => (
+                <span key={`c-${i}`}
+                  className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-full whitespace-nowrap flex-shrink-0"
+                  style={{ background: "var(--color-sage-muted)", color: "var(--color-sage-dark)" }}>
+                  {t}
                 </span>
-                <span className="text-[10px] mt-0.5" style={{ color: "var(--color-text-muted)" }}>
-                  Homeopathy & Psychology
-                </span>
-              </div>
+              ))}
             </div>
           </div>
-
-          {/* Text */}
-          <div className="anim-fadeInUp delay-2">
-            <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase mb-4 block"
-              style={{ color: "var(--color-sage-dark)" }}>
-              About Dr. Gupta
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-[2rem] leading-snug mb-6"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-              A holistic healer who treats the whole person, not just the symptoms.
-            </h2>
-            <div className="space-y-4 mb-8">
-              <p className="text-sm sm:text-[15px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-                Dr. Gunja Gupta is a certified homeopathic physician with an MA in Psychology.
-                She brings a unique combination of natural medicine and psychological
-                expertise to her holistic practice, serving patients for over 15 years.
-              </p>
-              <p className="text-sm sm:text-[15px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-                Her approach bridges mind and body — treating patients with individualized
-                homeopathic remedies alongside a deep understanding of the constitutional,
-                emotional, and psychological factors that influence health and well-being.
-              </p>
-            </div>
-
-            {/* ── Credentials Badge ── */}
-            <div className="rounded-xl p-4 sm:p-5 mb-8 flex items-start gap-4"
-              style={{ background: "var(--color-sage-muted)", border: "1px solid var(--color-sage)" }}>
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-                style={{ background: "var(--color-sage-dark)" }}>
-                <Award size={20} className="text-white" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold mb-1" style={{ color: "var(--color-forest)" }}>
-                  Qualifications &amp; Registration
-                </h4>
-                <p className="text-xs sm:text-[13px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-                  <strong>BHMS, MA Psychology</strong>
-                </p>
-                <p className="text-xs sm:text-[13px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-                  Medical Registration No: <strong>XXXXX</strong>
-                </p>
-                <p className="text-[10px] sm:text-[11px] mt-1" style={{ color: "var(--color-text-muted)" }}>
-                  Registered with the State Homeopathic Medical Council
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {aboutTags.map((tag) => (
-                <span key={tag}
-                  className="px-3.5 py-1.5 text-[11px] sm:text-xs font-medium rounded-full border"
-                  style={{ borderColor: "var(--color-sage)", color: "var(--color-sage-dark)" }}>
-                  {tag}
+          {/* Row 2 */}
+          <div className="overflow-hidden">
+            <div className="marquee-track-reverse">
+              {[...benefitTags, ...benefitTags, ...benefitTags].map((t, i) => (
+                <span key={`b-${i}`}
+                  className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-full whitespace-nowrap flex-shrink-0 border"
+                  style={{ background: "white", color: "var(--color-text-primary)", borderColor: "var(--color-border)" }}>
+                  {t}
                 </span>
               ))}
             </div>
@@ -350,322 +281,452 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ━━━ SERVICES ━━━ */}
-      <section id="services" className="section-padding" style={{ background: "var(--color-cream-light)" }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12 sm:mb-16 anim-fadeInUp">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl mb-3"
+      {/* ━━━ ABOUT (Stitch: large image + text with credentials) ━━━ */}
+      <section id="about" className="py-24 px-6 sm:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* Image Side */}
+          <div className="relative group anim-fadeInUp delay-1">
+            <div className="aspect-[4/5] rounded-2xl overflow-hidden relative"
+              style={{ boxShadow: "0 25px 50px -12px rgba(0,0,0,0.15)" }}>
+              <div className="w-full h-full"
+                style={{ background: "linear-gradient(135deg, var(--color-sage-muted) 0%, var(--color-cream-dark) 100%)" }}>
+                {/* Doctor Initials as placeholder */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <div className="w-36 h-44 rounded-xl flex items-center justify-center text-5xl font-bold mb-4"
+                    style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(10px)", color: "var(--color-forest)", fontFamily: "var(--font-heading)" }}>
+                    GG
+                  </div>
+                  <span className="text-sm font-semibold"
+                    style={{ color: "var(--color-forest)", fontFamily: "var(--font-heading)" }}>
+                    Dr. Gunja Gupta
+                  </span>
+                  <span className="text-xs mt-0.5" style={{ color: "var(--color-text-muted)" }}>
+                    Homeopathy &amp; Psychology
+                  </span>
+                </div>
+              </div>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0"
+                style={{ background: "linear-gradient(to top, rgba(91,126,95,0.4), transparent)" }} />
+              {/* Credentials Badge (overlay) */}
+              <div className="absolute bottom-8 left-8">
+                <div className="backdrop-blur-md px-6 py-4 rounded-2xl flex items-center gap-4"
+                  style={{ background: "rgba(255,255,255,0.9)", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
+                  <Award size={28} style={{ color: "var(--color-gold-star)" }} />
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest"
+                      style={{ color: "var(--color-text-muted)" }}>Credentials</p>
+                    <p className="text-lg"
+                      style={{ fontFamily: "var(--font-heading)", color: "var(--color-sage-dark)" }}>
+                      Awarded Wellness Expert 2023
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Text Side */}
+          <div className="space-y-8 anim-fadeInUp delay-2">
+            <div className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em]"
+              style={{ background: "var(--color-sage-muted)", color: "var(--color-sage-dark)" }}>
+              About Dr. Gupta
+            </div>
+            <h2 className="text-4xl md:text-5xl leading-tight"
               style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-              Services
+              Dedicated to your recovery through{" "}
+              <span className="italic" style={{ color: "var(--color-sage-dark)" }}>empathetic care</span>.
             </h2>
-            <p className="text-sm sm:text-base max-w-lg mx-auto" style={{ color: "var(--color-text-muted)" }}>
-              Comprehensive care tailored to every stage of life.
+            <div className="space-y-6 text-lg leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              <p>
+                With a dual foundation in Homeopathy and Clinical Psychology, Dr. Gunja Gupta offers
+                a unique therapeutic bridge that addresses both biological symptoms and emotional well-being.
+              </p>
+              <p>
+                Her philosophy centers on the belief that health is not merely the absence of disease,
+                but a state of vibrant harmony between mind and body. Every treatment plan is
+                meticulously curated to the individual&apos;s unique constitution and life journey.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-3 px-5 py-3 rounded-full"
+                style={{ background: "var(--color-cream-dark)" }}>
+                <Award size={18} style={{ color: "var(--color-sage-dark)" }} />
+                <span className="text-sm font-medium">B.H.M.S, M.Sc Psychology</span>
+              </div>
+              <div className="flex items-center gap-3 px-5 py-3 rounded-full"
+                style={{ background: "var(--color-cream-dark)" }}>
+                <Shield size={18} style={{ color: "var(--color-sage-dark)" }} />
+                <span className="text-sm font-medium">Certified Holistic Practitioner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ SERVICES (Stitch: icon badges + numbered watermarks + CTA card) ━━━ */}
+      <section id="services" className="py-24" style={{ background: "var(--color-cream-light)" }}>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="text-center mb-20 max-w-3xl mx-auto anim-fadeInUp">
+            <h2 className="text-4xl md:text-5xl mb-6"
+              style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+              Boutique Wellness Services
+            </h2>
+            <p className="text-lg" style={{ color: "var(--color-text-secondary)" }}>
+              Comprehensive care modules designed to heal at every level of your existence.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((s, i) => (
               <div key={s.num}
-                className="relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1 anim-fadeInUp"
+                className="relative overflow-hidden p-10 rounded-2xl transition-all duration-500 hover:-translate-y-2 group anim-fadeInUp"
                 style={{
                   background: "var(--color-cream-card)",
-                  border: "1px solid var(--color-border)",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.02)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
                   animationDelay: `${i * 0.1}s`,
                 }}>
-                {/* Large faint number */}
-                <span className="absolute top-5 right-6 text-[3rem] sm:text-[3.5rem] font-bold leading-none select-none pointer-events-none"
-                  style={{ fontFamily: "var(--font-heading)", color: "var(--color-cream-dark)", opacity: 0.7 }}>
+                {/* Watermark Number */}
+                <span className="absolute top-4 right-8 text-7xl leading-none select-none pointer-events-none transition-colors"
+                  style={{ fontFamily: "var(--font-heading)", color: "rgba(91,126,95,0.05)" }}>
                   {s.num}
                 </span>
-                <h3 className="text-base sm:text-lg font-semibold mb-3 relative z-10"
+                {/* Icon Badge */}
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-3xl"
+                  style={{ background: "var(--color-sage-muted)" }}>
+                  {s.icon}
+                </div>
+                <h3 className="text-2xl mb-4"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
                   {s.title}
                 </h3>
-                <p className="text-[13px] sm:text-sm leading-relaxed relative z-10"
-                  style={{ color: "var(--color-text-secondary)" }}>
+                <p className="leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
                   {s.desc}
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ━━━ BOOKING ━━━ */}
-      <section id="booking" className="section-padding">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10 sm:mb-14 anim-fadeInUp">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl mb-3"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-              Book an Appointment
-            </h2>
-            <p className="text-sm sm:text-base max-w-md mx-auto" style={{ color: "var(--color-text-muted)" }}>
-              Choose a date and time that works for you.
-            </p>
-          </div>
-
-          <div className="max-w-lg mx-auto anim-scaleIn delay-2">
-            {/* Steps */}
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-8">
-              {bookingSteps.map((step, i) => (
-                <button key={step.num}
-                  onClick={() => setActiveStep(i)}
-                  className="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-[13px] font-semibold transition-all duration-300"
-                  style={{
-                    background: activeStep === i ? "var(--color-sage-dark)" : "white",
-                    color: activeStep === i ? "#fff" : "var(--color-text-secondary)",
-                    border: `1px solid ${activeStep === i ? "var(--color-sage-dark)" : "var(--color-border)"}`,
-                  }}>
-                  <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
-                    style={{
-                      background: activeStep === i ? "rgba(255,255,255,0.2)" : "var(--color-cream)",
-                      color: activeStep === i ? "#fff" : "var(--color-text-muted)",
-                    }}>
-                    {step.num}
-                  </span>
-                  <span className="hidden sm:inline">{step.label}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Booking Content Card */}
-            <div className="rounded-2xl p-6 sm:p-8 min-h-[400px] flex flex-col"
-              style={{ background: "var(--color-cream-card)", border: "1px solid var(--color-border)", boxShadow: "0 2px 8px rgba(0,0,0,0.02), 0 8px 32px rgba(0,0,0,0.04)" }}>
-              
-              {/* STEP 1: DATE SELECTION */}
-              {activeStep === 0 && (
-                <div className="flex-1 animate-fadeIn">
-                  <div className="flex items-center justify-between mb-6">
-                    <button className="p-2 rounded-lg transition-colors hover:bg-[var(--color-cream)]">
-                      <ChevronLeft size={18} style={{ color: "var(--color-forest)" }} />
-                    </button>
-                    <h3 className="text-sm sm:text-base font-semibold tracking-wide"
-                      style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-                      March 2026
-                    </h3>
-                    <button className="p-2 rounded-lg transition-colors hover:bg-[var(--color-cream)]">
-                      <ChevronRight size={18} style={{ color: "var(--color-forest)" }} />
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-7 gap-1 mb-2">
-                    {days.map((d) => (
-                      <div key={d} className="text-center text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider pb-2"
-                        style={{ color: "var(--color-text-muted)" }}>
-                        {d}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="grid grid-cols-7 gap-1 mb-6">
-                    {[...Array(31)].map((_, i) => {
-                      const day = i + 1;
-                      const isSelected = day === selectedDate;
-                      const isWeekend = i % 7 === 0 || i % 7 === 6;
-                      return (
-                        <button key={day}
-                          onClick={() => !isWeekend && setSelectedDate(day)}
-                          disabled={isWeekend}
-                          className="mx-auto w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-xs sm:text-sm rounded-xl transition-all duration-200"
-                          style={{
-                            background: isSelected ? "var(--color-sage-dark)" : "transparent",
-                            color: isSelected ? "#fff" : isWeekend ? "var(--color-cream-dark)" : "var(--color-text-primary)",
-                            fontWeight: isSelected ? 700 : 400,
-                            cursor: isWeekend ? "default" : "pointer",
-                            opacity: isWeekend ? 0.5 : 1
-                          }}>
-                          {day}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <div className="mt-auto">
-                    <button 
-                      onClick={handleDateContinue}
-                      disabled={!selectedDate || loadingSlots}
-                      className="w-full justify-center flex items-center py-3.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5"
-                      style={{ background: "var(--color-forest)" }}>
-                      {loadingSlots ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Continue"}
-                    </button>
-                    <p className="text-center text-xs mt-3" style={{ color: "var(--color-text-muted)" }}>
-                      Available Monday – Friday. Select a date to continue.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 2: TIME SELECTION */}
-              {activeStep === 1 && (
-                <div className="flex-1 flex flex-col animate-fadeIn">
-                  <h3 className="text-base font-semibold mb-6 text-center" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-                    Available Times on March {selectedDate}
-                  </h3>
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    {loadingSlots ? (
-                      <div className="col-span-2 text-center py-4 text-sm" style={{ color: "var(--color-text-muted)" }}>
-                        Loading available slots...
-                      </div>
-                    ) : availableSlots.length === 0 ? (
-                      <div className="col-span-2 text-center py-4 text-sm" style={{ color: "var(--color-text-muted)" }}>
-                        No slots available for this date.
-                      </div>
-                    ) : (
-                      availableSlots.map((time) => (
-                        <button key={time}
-                          className="py-3 rounded-xl text-sm font-medium border transition-all hover:bg-[var(--color-cream)] focus:ring-2 focus:ring-[var(--color-sage-dark)]"
-                          style={{ 
-                            borderColor: selectedTime === time ? "var(--color-sage-dark)" : "var(--color-border)", 
-                            background: selectedTime === time ? "var(--color-sage-light)" : "transparent",
-                            color: "var(--color-forest)" 
-                          }}
-                          onClick={() => handleTimeSelect(time)}>
-                          {time}
-                        </button>
-                      ))
-                    )}
-                  </div>
-                  <div className="mt-auto pt-4">
-                    <button onClick={() => setActiveStep(0)} className="w-full py-3 rounded-xl text-sm font-semibold border transition-all hover:bg-[var(--color-cream)]"
-                      style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}>
-                      Back to Calendar
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 3: DETAILS & PAYMENT */}
-              {activeStep === 2 && (
-                <div className="flex-1 flex flex-col animate-fadeIn">
-                  <h3 className="text-base font-semibold mb-5 text-center" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-                    Your Information
-                  </h3>
-                  <div className="space-y-4 mb-6">
-                    <div>
-                      <label className="block text-xs font-semibold mb-2 tracking-wide" style={{ color: "var(--color-text-secondary)" }}>Full Name</label>
-                      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold mb-2 tracking-wide" style={{ color: "var(--color-text-secondary)" }}>Email Address</label>
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold mb-2 tracking-wide" style={{ color: "var(--color-text-secondary)" }}>Phone Number</label>
-                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 000-0000" className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
-                    </div>
-                  </div>
-                  <div className="mt-auto grid grid-cols-2 gap-3 pt-4">
-                    <button onClick={() => setActiveStep(1)} className="py-3.5 rounded-xl text-sm font-semibold border transition-all hover:bg-[var(--color-cream)]"
-                      style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}>
-                      Back
-                    </button>
-                    <button onClick={submitBooking} disabled={isBooking || !name || !email} className="flex items-center justify-center py-3.5 rounded-xl text-sm font-semibold text-white transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{ background: "var(--color-forest)" }}>
-                      {isBooking ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Go to Payment"}
-                    </button>
-                  </div>
-                </div>
-              )}
+            {/* CTA Card */}
+            <div className="p-10 rounded-2xl flex flex-col justify-center items-center text-center"
+              style={{ background: "var(--color-sage-dark)" }}>
+              <h3 className="text-2xl mb-4 text-white"
+                style={{ fontFamily: "var(--font-heading)" }}>
+                Custom Path
+              </h3>
+              <p className="opacity-90 mb-8 text-white">
+                Not sure which service is right for you? Book a 15-minute discovery call.
+              </p>
+              <a href="#booking"
+                className="px-8 py-3 rounded-full font-medium transition-colors hover:opacity-90"
+                style={{ background: "var(--color-cream)", color: "var(--color-sage-dark)" }}>
+                Contact Expert
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ━━━ CONTACT ━━━ */}
-      <section id="contact" className="section-padding" style={{ background: "var(--color-cream-light)" }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10 sm:mb-14 anim-fadeInUp">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl mb-3"
-              style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
-              Contact & Location
-            </h2>
-            <p className="text-sm sm:text-base max-w-md mx-auto" style={{ color: "var(--color-text-muted)" }}>
-              We&apos;re here to help. Reach out anytime.
-            </p>
-          </div>
+      {/* ━━━ BOOKING (Stitch: Split layout — sidebar + calendar) ━━━ */}
+      <section id="booking" className="py-24 px-6 sm:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="rounded-2xl overflow-hidden anim-scaleIn delay-2"
+            style={{ background: "var(--color-cream-card)", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.1)", border: "1px solid rgba(194,200,191,0.2)" }}>
+            <div className="grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+              {/* ── Sidebar Steps ── */}
+              <div className="lg:col-span-4 p-8 lg:p-12" style={{ background: "var(--color-sage-dark)" }}>
+                <h3 className="text-3xl mb-12 text-white"
+                  style={{ fontFamily: "var(--font-heading)" }}>
+                  Book Your Visit
+                </h3>
+                <div className="space-y-8 relative">
+                  {bookingSteps.map((step, i) => (
+                    <button key={step.num}
+                      onClick={() => setActiveStep(i)}
+                      className="flex items-center gap-4 relative z-10 w-full text-left transition-opacity"
+                      style={{ opacity: activeStep >= i ? 1 : 0.5 }}>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0"
+                        style={{
+                          background: activeStep >= i ? "var(--color-cream)" : "transparent",
+                          color: activeStep >= i ? "var(--color-sage-dark)" : "white",
+                          border: activeStep >= i ? "none" : "2px solid rgba(255,255,255,0.4)",
+                        }}>
+                        {step.num}
+                      </div>
+                      <span className="font-medium text-white">{step.label}</span>
+                    </button>
+                  ))}
+                  {/* Vertical Line */}
+                  <div className="absolute left-5 top-5 w-0.5 h-full -z-0"
+                    style={{ background: "rgba(255,255,255,0.2)" }} />
+                </div>
+              </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+              {/* ── Main Content Area ── */}
+              <div className="lg:col-span-8 p-6 sm:p-10 lg:p-16 overflow-hidden flex flex-col justify-center">
+                <div className="max-w-2xl w-full mx-auto">
+                  {/* STEP 1: DATE SELECTION */}
+                  {activeStep === 0 && (
+                    <div className="anim-fadeIn">
+                    <div className="flex items-center justify-between mb-6">
+                      <h4 className="text-xl" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+                        March 2026
+                      </h4>
+                      <div className="flex gap-2">
+                        <button className="p-2 rounded-full transition-colors"
+                          style={{ background: "transparent" }}
+                          onMouseEnter={e => e.currentTarget.style.background = "var(--color-cream-dark)"}
+                          onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                          <ChevronLeft size={18} style={{ color: "var(--color-forest)" }} />
+                        </button>
+                        <button className="p-2 rounded-full transition-colors"
+                          style={{ background: "transparent" }}
+                          onMouseEnter={e => e.currentTarget.style.background = "var(--color-cream-dark)"}
+                          onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                          <ChevronRight size={18} style={{ color: "var(--color-forest)" }} />
+                        </button>
+                      </div>
+                    </div>
+                    {/* Day Headers */}
+                    <div className="grid grid-cols-7 gap-2 text-center text-sm font-medium mb-4"
+                      style={{ color: "var(--color-text-muted)" }}>
+                      {days.map((d, i) => <span key={i}>{d}</span>)}
+                    </div>
+                    {/* Calendar Grid */}
+                    <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-6">
+                      {[...Array(31)].map((_, i) => {
+                        const day = i + 1;
+                        const isSelected = day === selectedDate;
+                        const isWeekend = i % 7 === 0 || i % 7 === 6;
+                        return (
+                          <button key={day}
+                            onClick={() => !isWeekend && setSelectedDate(day)}
+                            disabled={isWeekend}
+                            className="aspect-square flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-200"
+                            style={{
+                              background: isSelected ? "var(--color-sage-dark)" : "transparent",
+                              color: isSelected ? "#fff" : isWeekend ? "var(--color-cream-dark)" : "var(--color-text-primary)",
+                              fontWeight: isSelected ? 700 : 500,
+                              opacity: isWeekend ? 0.3 : 1,
+                              cursor: isWeekend ? "default" : "pointer",
+                              boxShadow: isSelected ? "0 4px 12px rgba(91,126,95,0.3)" : "none",
+                              border: isSelected ? "none" : "1px solid transparent",
+                            }}
+                            onMouseEnter={e => { if (!isWeekend && !isSelected) e.currentTarget.style.background = "var(--color-cream-dark)"; }}
+                            onMouseLeave={e => { if (!isWeekend && !isSelected) e.currentTarget.style.background = "transparent"; }}>
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="mt-10 pt-6 border-t" style={{ borderColor: "var(--color-border)" }}>
+                      <button
+                        onClick={handleDateContinue}
+                        disabled={!selectedDate || loadingSlots}
+                        className="w-full py-4 rounded-full text-white font-bold text-lg transition-all duration-300 hover:opacity-90 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
+                        style={{ background: "var(--color-sage-dark)", boxShadow: "0 4px 12px rgba(91,126,95,0.3)" }}>
+                        {loadingSlots ? <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Continue Booking"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 2: TIME SELECTION */}
+                {activeStep === 1 && (
+                  <div className="flex-1 flex flex-col anim-fadeIn">
+                    <div className="mb-8">
+                      <h4 className="text-2xl mb-2" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+                        Pick a Time
+                      </h4>
+                      <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
+                        Select your preferred slot on March {selectedDate}, 2026
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                      {loadingSlots ? (
+                        <div className="col-span-2 text-center py-12 text-sm" style={{ color: "var(--color-text-muted)" }}>
+                          <span className="inline-block w-5 h-5 border-2 border-[var(--color-sage-dark)] border-t-transparent rounded-full animate-spin mb-3" />
+                          <p>Loading available slots...</p>
+                        </div>
+                      ) : availableSlots.length === 0 ? (
+                        <div className="col-span-2 text-center py-12 text-sm" style={{ color: "var(--color-text-muted)" }}>
+                          No slots available for this date.
+                        </div>
+                      ) : (
+                        availableSlots.map((time) => (
+                          <button key={time}
+                            className="py-5 rounded-2xl border-2 text-lg font-semibold transition-all duration-200"
+                            style={{
+                              borderColor: selectedTime === time ? "var(--color-sage-dark)" : "var(--color-border)",
+                              background: selectedTime === time ? "var(--color-sage-dark)" : "var(--color-cream-light)",
+                              color: selectedTime === time ? "#fff" : "var(--color-text-primary)",
+                              boxShadow: selectedTime === time ? "0 4px 16px rgba(91,126,95,0.3)" : "none",
+                            }}
+                            onClick={() => handleTimeSelect(time)}>
+                            {time}
+                          </button>
+                        ))
+                      )}
+                    </div>
+                    <div className="mt-auto pt-4">
+                      <button onClick={() => setActiveStep(0)}
+                        className="w-full py-4 rounded-full text-sm font-semibold border-2 transition-all hover:bg-[var(--color-cream)]"
+                        style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}>
+                        ← Back to Calendar
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 3: DETAILS & PAYMENT */}
+                {activeStep === 2 && (
+                  <div className="flex-1 flex flex-col anim-fadeIn">
+                    <h4 className="text-xl mb-6" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+                      Your Information
+                    </h4>
+                    <div className="space-y-4 mb-6">
+                      <div>
+                        <label className="block text-xs font-semibold mb-2 tracking-wide uppercase"
+                          style={{ color: "var(--color-text-muted)" }}>Full Name</label>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)}
+                          placeholder="Jane Doe"
+                          className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]"
+                          style={{ borderColor: "var(--color-border)", background: "transparent" }} />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-2 tracking-wide uppercase"
+                          style={{ color: "var(--color-text-muted)" }}>Email Address</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                          placeholder="jane@example.com"
+                          className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]"
+                          style={{ borderColor: "var(--color-border)", background: "transparent" }} />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-2 tracking-wide uppercase"
+                          style={{ color: "var(--color-text-muted)" }}>Phone Number</label>
+                        <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
+                          placeholder="(555) 000-0000"
+                          className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]"
+                          style={{ borderColor: "var(--color-border)", background: "transparent" }} />
+                      </div>
+                    </div>
+                    <div className="mt-auto grid grid-cols-2 gap-3 pt-4">
+                      <button onClick={() => setActiveStep(1)}
+                        className="py-3.5 rounded-full text-sm font-semibold border transition-all"
+                        style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}>
+                        Back
+                      </button>
+                      <button onClick={submitBooking}
+                        disabled={isBooking || !name || !email}
+                        className="flex items-center justify-center py-3.5 rounded-full text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{ background: "var(--color-sage-dark)" }}>
+                        {isBooking ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Go to Payment"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      {/* ━━━ CONTACT (Stitch: horizontal cards with circle icons) ━━━ */}
+      <section id="contact" className="py-24" style={{ background: "var(--color-cream-light)" }}>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              {
-                icon: Phone, title: "(555) 987-6543",
-                sub: "Mon – Fri, 8am – 5pm",
-                label: "Phone"
-              },
-              {
-                icon: Mail, title: "hello@drgunjagupta.com",
-                sub: "Replies within 24 hours",
-                label: "Email"
-              },
-              {
-                icon: MapPin, title: "123 Health Ave",
-                sub: "Suite 200, City, ST 10001",
-                label: "Office"
-              },
-            ].map((c, i) => (
+              { icon: Phone, label: "Call Us", title: "+91 98765 43210" },
+              { icon: Mail, label: "Email Us", title: "hello@drgunjagupta.com" },
+              { icon: MapPin, label: "Office", title: "The Sanctuary, Suite 402" },
+            ].map((c) => (
               <div key={c.label}
-                className="rounded-2xl p-7 sm:p-8 text-center transition-all duration-300 hover:-translate-y-1 anim-fadeInUp"
-                style={{
-                  background: "var(--color-cream-card)",
-                  border: "1px solid var(--color-border)",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.02)",
-                  animationDelay: `${i * 0.12}s`,
-                }}>
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-5"
+                className="flex items-center gap-6 p-8 rounded-2xl transition-shadow group hover:shadow-md"
+                style={{ background: "var(--color-cream-card)" }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
                   style={{ background: "var(--color-sage-muted)" }}>
-                  <c.icon size={20} style={{ color: "var(--color-sage-dark)" }} />
+                  <c.icon size={22} style={{ color: "var(--color-sage-dark)" }} />
                 </div>
-                <span className="block text-[10px] font-semibold tracking-[0.15em] uppercase mb-2.5"
-                  style={{ color: "var(--color-text-muted)" }}>
-                  {c.label}
-                </span>
-                <h4 className="text-sm sm:text-base font-semibold mb-1.5"
-                  style={{ color: "var(--color-forest)" }}>
-                  {c.title}
-                </h4>
-                <p className="text-[13px] sm:text-sm" style={{ color: "var(--color-text-muted)" }}>
-                  {c.sub}
-                </p>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-1"
+                    style={{ color: "var(--color-text-muted)" }}>{c.label}</p>
+                  <p className="text-xl" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+                    {c.title}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ━━━ FOOTER ━━━ */}
-      <footer className="py-12 px-6 sm:px-8 border-t" style={{ borderColor: "var(--color-border)" }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-            <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-              © 2026 Dr. Gunja Gupta. All rights reserved.
+      {/* ━━━ FOOTER (Stitch: 3 columns with social + practice + legal) ━━━ */}
+      <footer className="py-12 px-6 sm:px-8" style={{ background: "var(--color-cream-dark)" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {/* Col 1: Brand */}
+          <div className="space-y-4">
+            <div className="text-lg italic" style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+              Dr. Gunja Gupta
+            </div>
+            <p className="text-sm max-w-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+              Dedicated to holistic mental and physical health since 2008. Combining the best
+              of clinical psychology and traditional homeopathy.
             </p>
-            <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
-              {["About", "Services", "Book", "Contact"].map((link) => (
-                <a key={link} href={`#${link.toLowerCase()}`}
-                  className="text-xs font-medium transition-colors hover:underline"
-                  style={{ color: "var(--color-text-secondary)" }}>
-                  {link}
-                </a>
-              ))}
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors"
+                style={{ borderColor: "var(--color-border)" }}>
+                <BarChart3 size={14} style={{ color: "var(--color-sage-dark)" }} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors"
+                style={{ borderColor: "var(--color-border)" }}>
+                <Globe size={14} style={{ color: "var(--color-sage-dark)" }} />
+              </a>
             </div>
           </div>
-          {/* Policy Links */}
-          <div className="border-t pt-5 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
-            style={{ borderColor: "var(--color-border)" }}>
-            <div className="flex items-center gap-1.5" style={{ color: "var(--color-text-muted)" }}>
-              <ShieldCheck size={14} />
-              <span className="text-[11px]">Your data is safe with us</span>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-              {[
-                { label: "Privacy Policy", href: "/privacy-policy" },
-                { label: "Terms of Service", href: "/terms" },
-                { label: "Refund Policy", href: "/refund-policy" },
-              ].map((policy) => (
-                <Link key={policy.label} href={policy.href}
-                  className="text-[11px] sm:text-xs font-medium transition-colors hover:underline"
-                  style={{ color: "var(--color-sage-dark)" }}>
-                  {policy.label}
-                </Link>
-              ))}
-            </div>
+
+          {/* Col 2: Practice Links */}
+          <div className="flex flex-col gap-3">
+            <h4 className="text-sm tracking-wide uppercase font-bold mb-2"
+              style={{ color: "var(--color-forest)" }}>Practice</h4>
+            {["About", "Services", "Book Visit"].map((link) => (
+              <a key={link} href={`#${link.toLowerCase().replace(" ", "")}`}
+                className="text-sm flex items-center gap-2 group transition-colors duration-300"
+                style={{ color: "var(--color-text-muted)" }}>
+                <span className="w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: "var(--color-sage-dark)" }} />
+                {link}
+              </a>
+            ))}
+          </div>
+
+          {/* Col 3: Legal Links */}
+          <div className="flex flex-col gap-3">
+            <h4 className="text-sm tracking-wide uppercase font-bold mb-2"
+              style={{ color: "var(--color-forest)" }}>Legal</h4>
+            {[
+              { label: "Privacy Policy", href: "/privacy-policy", icon: Shield },
+              { label: "Terms of Service", href: "/terms", icon: Shield },
+              { label: "Accessibility", href: "#", icon: Globe },
+            ].map((policy) => (
+              <Link key={policy.label} href={policy.href}
+                className="text-sm flex items-center gap-2 transition-colors duration-300"
+                style={{ color: "var(--color-text-muted)" }}>
+                <policy.icon size={12} style={{ opacity: 0.6 }} />
+                {policy.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 max-w-7xl mx-auto"
+          style={{ borderTop: "1px solid var(--color-border)" }}>
+          <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
+            © 2026 Dr. Gunja Gupta. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2" style={{ color: "var(--color-text-muted)" }}>
+            <Shield size={14} />
+            <span className="text-[10px] uppercase tracking-widest font-bold">Licensed Holistic Clinic</span>
           </div>
         </div>
       </footer>
