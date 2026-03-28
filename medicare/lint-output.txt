@@ -1,0 +1,30 @@
+
+D:\New Projact\medicare\src\app\admin\page.tsx
+  129:25  error  Error: Cannot reassign variable after render completes
+
+Reassigning `offset` after render has completed can cause inconsistent behavior on subsequent renders. Consider using state instead.
+
+D:\New Projact\medicare\src\app\admin\page.tsx:129:25
+  127 |                         const s = <circle key={d.name} cx="18" cy="18" r="15.9" fill="transparent" strokeWidth="3.5"
+  128 |                           stroke={deptColors[i]} strokeDasharray={`${d.pct} ${100 - d.pct}`} strokeDashoffset={-offset} strokeLinecap="round" />;
+> 129 |                         offset += d.pct; return s;
+      |                         ^^^^^^ Cannot reassign `offset` after render completes
+  130 |                       });
+  131 |                     })()}
+  132 |                   </svg>  react-hooks/immutability
+
+D:\New Projact\medicare\src\app\doctor\portal\page.tsx
+  5:39  warning  'Clock' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\New Projact\medicare\src\app\page.tsx
+   69:14  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  112:14  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\New Projact\medicare\src\app\payment\page.tsx
+  11:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  83:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 8 problems (5 errors, 3 warnings)
+

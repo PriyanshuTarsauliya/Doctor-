@@ -8,7 +8,9 @@ import { ShieldCheck, Lock, CreditCard, Smartphone, Building, Wallet, ArrowLeft 
 // TypeScript declarations for payment SDKs
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Razorpay: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Cashfree: any;
   }
 }
@@ -57,6 +59,7 @@ export default function PaymentPage() {
       currency: "INR",
       name: "Dr. Gunja Gupta Clinic",
       description: `Consultation Fee - ${doctor.specialty}`,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       handler: function (response: any) {
         alert("✅ Payment Successful!\n\nPayment ID: " + response.razorpay_payment_id);
         setLoading(false);
@@ -80,6 +83,7 @@ export default function PaymentPage() {
     };
 
     const rzp = new window.Razorpay(options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rzp.on("payment.failed", function (response: any) {
       alert("❌ Payment Failed\n\n" + (response.error?.description || "Something went wrong"));
       setLoading(false);

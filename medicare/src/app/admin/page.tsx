@@ -122,12 +122,17 @@ export default function AdminPage() {
                 <div className="relative w-28 h-28 sm:w-32 sm:h-32">
                   <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
                     {(() => {
-                      let offset = 0;
-                      return deptData.map((d, i) => {
-                        const s = <circle key={d.name} cx="18" cy="18" r="15.9" fill="transparent" strokeWidth="3.5"
-                          stroke={deptColors[i]} strokeDasharray={`${d.pct} ${100 - d.pct}`} strokeDashoffset={-offset} strokeLinecap="round" />;
-                        offset += d.pct; return s;
-                      });
+                      let currentOffset = 0;
+                      const circles = [];
+                      for (let i = 0; i < deptData.length; i++) {
+                        const d = deptData[i];
+                        circles.push(
+                          <circle key={d.name} cx="18" cy="18" r="15.9" fill="transparent" strokeWidth="3.5"
+                            stroke={deptColors[i]} strokeDasharray={`${d.pct} ${100 - d.pct}`} strokeDashoffset={-currentOffset} strokeLinecap="round" />
+                        );
+                        currentOffset += d.pct;
+                      }
+                      return circles;
                     })()}
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">

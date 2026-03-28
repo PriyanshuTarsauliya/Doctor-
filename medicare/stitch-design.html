@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dr. Gunja Gupta — Homeopathy &amp; Psychology</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#31302d",
+              "surface-container-high": "#ebe8e2",
+              "inverse-primary": "#aad0ac",
+              "on-primary-fixed": "#00210a",
+              "tertiary": "#795702",
+              "on-secondary": "#ffffff",
+              "secondary-fixed-dim": "#abcfb8",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#c7ebd4",
+              "surface": "#fdf9f3",
+              "error": "#ba1a1a",
+              "on-secondary-fixed": "#002113",
+              "primary": "#436548",
+              "on-surface": "#1c1c18",
+              "on-primary-container": "#fefff9",
+              "primary-container": "#5b7e5f",
+              "primary-fixed": "#c6ecc7",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#496a57",
+              "on-surface-variant": "#424841",
+              "secondary": "#456553",
+              "on-tertiary-container": "#fffdff",
+              "surface-bright": "#fdf9f3",
+              "surface-container-low": "#f7f3ed",
+              "primary-fixed-dim": "#aad0ac",
+              "on-primary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdea6",
+              "on-background": "#1c1c18",
+              "tertiary-fixed-dim": "#eec068",
+              "surface-variant": "#e6e2dc",
+              "surface-container": "#f1ede7",
+              "surface-dim": "#ddd9d4",
+              "outline-variant": "#c2c8bf",
+              "outline": "#727971",
+              "tertiary-container": "#956f1f",
+              "inverse-on-surface": "#f4f0ea",
+              "secondary-container": "#c4e8d1",
+              "on-secondary-fixed-variant": "#2d4d3c",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#2d4e33",
+              "on-tertiary-fixed-variant": "#5d4200",
+              "on-tertiary-fixed": "#271900",
+              "surface-tint": "#446649",
+              "surface-container-highest": "#e6e2dc",
+              "background": "#fdf9f3"
+            },
+            fontFamily: {
+              "headline": ["Playfair Display", "serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Section 1: Top Banner -->
+<div class="bg-secondary-container text-on-secondary-fixed-variant py-2.5 px-4 text-center text-sm font-medium tracking-wide">
+        Now accepting new patients — <a class="underline hover:opacity-80 transition-opacity" href="#booking">Book your visit today</a>
+</div>
+<!-- Section 2: TopAppBar (Sticky Navigation) -->
+<nav class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-xl shadow-sm shadow-emerald-900/5 transition-all duration-300">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-serif italic text-emerald-950 dark:text-emerald-50">
+                Dr. Gunja Gupta
+            </div>
+<div class="hidden md:flex items-center space-x-10">
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-900 text-emerald-800 dark:text-emerald-200 font-semibold border-b-2 border-emerald-800 transition-opacity duration-300" href="#about">About</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-900 transition-opacity duration-300" href="#services">Services</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-900 transition-opacity duration-300" href="#contact">Contact</a>
+</div>
+<a class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-medium text-sm hover:opacity-80 transition-opacity duration-300" href="#booking">
+                Book appointment
+            </a>
+</div>
+</nav>
+<!-- Spacer for fixed nav -->
+<div class="h-20"></div>
+<!-- Section 3: Hero Section -->
+<section class="relative overflow-hidden py-24 md:py-32 flex flex-col items-center justify-center text-center px-6">
+<div class="max-w-4xl mx-auto relative z-10">
+<h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary mb-8 leading-tight">
+                Healing that treats the <span class="italic font-normal">whole</span> person
+            </h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+                Experience a boutique approach to wellness where ancient homeopathic wisdom meets modern clinical psychology to restore your natural balance.
+            </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+<a class="w-full sm:w-auto bg-primary text-on-primary px-8 py-4 rounded-full text-lg font-medium flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]" href="#booking">
+                    Book an appointment
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+<a class="w-full sm:w-auto border-2 border-primary text-primary px-8 py-4 rounded-full text-lg font-medium transition-all hover:bg-primary-container/10" href="#services">
+                    Learn more
+                </a>
+</div>
+<!-- Trust Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 border-t border-outline-variant/30">
+<div class="flex flex-col items-center">
+<span class="text-3xl font-headline text-primary mb-1">15+ Years</span>
+<span class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Expert Practice</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-3xl font-headline text-primary mb-1">2000+ Patients</span>
+<span class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Healed Lives</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-3xl font-headline text-primary mb-1 flex items-center gap-1">
+                        4.9 <span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">star</span>
+</span>
+<span class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Patient Rating</span>
+</div>
+</div>
+</div>
+<!-- Background Elements -->
+<div class="absolute top-0 left-0 w-full h-full -z-10 opacity-30 pointer-events-none">
+<div class="absolute top-20 left-10 w-64 h-64 bg-secondary-fixed blur-[100px] rounded-full"></div>
+<div class="absolute bottom-20 right-10 w-96 h-96 bg-primary-fixed blur-[120px] rounded-full"></div>
+</div>
+</section>
+<!-- Section 4: Scrolling Tag Marquee -->
+<div class="py-12 bg-surface-container-low overflow-hidden">
+<div class="flex flex-col gap-6">
+<!-- Row 1 -->
+<div class="flex gap-4 animate-marquee whitespace-nowrap px-4 justify-center">
+<span class="px-6 py-3 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium">Homeopathy</span>
+<span class="px-6 py-3 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-sm font-medium">Psychology</span>
+<span class="px-6 py-3 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium">Holistic Healing</span>
+<span class="px-6 py-3 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-sm font-medium">Anxiety Relief</span>
+<span class="px-6 py-3 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium">Gut Health</span>
+<span class="px-6 py-3 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-sm font-medium">Mental Wellness</span>
+</div>
+<!-- Row 2 -->
+<div class="flex gap-4 animate-marquee-reverse whitespace-nowrap px-4 justify-center">
+<span class="px-6 py-3 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-sm font-medium">Depression Therapy</span>
+<span class="px-6 py-3 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium">Chronic Care</span>
+<span class="px-6 py-3 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-sm font-medium">Stress Management</span>
+<span class="px-6 py-3 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium">Immune Boost</span>
+<span class="px-6 py-3 rounded-full bg-surface-container-lowest border border-outline-variant/50 text-sm font-medium">CBT Therapy</span>
+<span class="px-6 py-3 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium">Family Counseling</span>
+</div>
+</div>
+</div>
+<!-- Section 5: About Section -->
+<section class="py-24 px-8 max-w-7xl mx-auto" id="about">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="relative group">
+<div class="aspect-[4/5] rounded-lg overflow-hidden relative shadow-2xl">
+<img class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" data-alt="professional portrait of a female doctor in a serene wellness clinic setting, soft warm lighting, blurred medical diplomas in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUDU3t854ag_BV5AzHV38OiFcqLtVUIsjI27zicEsfjkJ0-pgm67FZ8VnTdhpv0k4iXiTaxFWc7QP2MRriucr--sNZ7VW_m0mkFt5RPdddEY-px93ffetiV-wBVof8fbFbvGzDQchMAW4RBSWYO7XSSCLDSy_JhqUTG2YiEkppXe94udQcvNq7tdxrBDg4jdBBnhkFh7yirEDyRqaM3Yjr14mCHJGQThZyv6jobjgT99kseLsgN87471qrpMfMdQjpBtxrBYYCKvw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<div class="bg-surface-container-lowest/90 backdrop-blur-md px-6 py-4 rounded-lg flex items-center gap-4 shadow-lg">
+<span class="material-symbols-outlined text-tertiary text-4xl" data-weight="fill">verified</span>
+<div>
+<p class="text-sm font-label font-bold uppercase tracking-widest text-on-surface-variant">Credentials</p>
+<p class="font-headline text-lg text-primary">Awarded Wellness Expert 2023</p>
+</div>
+</div>
+</div>
+</div>
+<!-- GG Monogram Decoration -->
+<div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-tertiary font-headline text-4xl opacity-20 -z-10 animate-pulse">GG</div>
+</div>
+<div class="space-y-8">
+<div class="inline-block px-4 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label text-xs uppercase tracking-[0.2em] font-bold">
+                    About Dr. Gupta
+                </div>
+<h2 class="font-headline text-4xl md:text-5xl text-on-surface leading-tight">
+                    Dedicated to your recovery through <span class="italic text-primary">empathetic care</span>.
+                </h2>
+<div class="space-y-6 text-on-surface-variant text-lg leading-relaxed">
+<p>
+                        With a dual foundation in Homeopathy and Clinical Psychology, Dr. Gunja Gupta offers a unique therapeutic bridge that addresses both biological symptoms and emotional well-being.
+                    </p>
+<p>
+                        Her philosophy centers on the belief that health is not merely the absence of disease, but a state of vibrant harmony between mind and body. Every treatment plan is meticulously curated to the individual's unique constitution and life journey.
+                    </p>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center gap-3 bg-surface-container px-5 py-3 rounded-full">
+<span class="material-symbols-outlined text-primary">school</span>
+<span class="text-sm font-medium">B.H.M.S, M.Sc Psychology</span>
+</div>
+<div class="flex items-center gap-3 bg-surface-container px-5 py-3 rounded-full">
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+<span class="text-sm font-medium">Certified Holistic Practitioner</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Services Grid -->
+<section class="py-24 bg-surface-container-low" id="services">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-20 max-w-3xl mx-auto">
+<h2 class="font-headline text-4xl md:text-5xl mb-6">Boutique Wellness Services</h2>
+<p class="text-on-surface-variant text-lg">Comprehensive care modules designed to heal at every level of your existence.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Service 1 -->
+<div class="bg-surface-container-lowest p-10 rounded-DEFAULT shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
+<span class="absolute top-4 right-8 font-headline text-7xl text-primary/5 transition-colors group-hover:text-primary/10">01</span>
+<div class="w-16 h-16 bg-primary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">fluid</span>
+</div>
+<h3 class="font-headline text-2xl mb-4">Constitutional Homeopathy</h3>
+<p class="text-on-surface-variant leading-relaxed">Personalized remedies that stimulate your body's natural healing responses for long-term chronic relief.</p>
+</div>
+<!-- Service 2 -->
+<div class="bg-surface-container-lowest p-10 rounded-DEFAULT shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
+<span class="absolute top-4 right-8 font-headline text-7xl text-primary/5 transition-colors group-hover:text-primary/10">02</span>
+<div class="w-16 h-16 bg-primary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+<h3 class="font-headline text-2xl mb-4">Clinical Psychology</h3>
+<p class="text-on-surface-variant leading-relaxed">Evidence-based talk therapy focusing on anxiety, depression, and trauma-informed behavioral shifts.</p>
+</div>
+<!-- Service 3 -->
+<div class="bg-surface-container-lowest p-10 rounded-DEFAULT shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
+<span class="absolute top-4 right-8 font-headline text-7xl text-primary/5 transition-colors group-hover:text-primary/10">03</span>
+<div class="w-16 h-16 bg-primary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">spa</span>
+</div>
+<h3 class="font-headline text-2xl mb-4">Integrative Wellness</h3>
+<p class="text-on-surface-variant leading-relaxed">A hybrid approach combining both disciplines for complex psychosomatic conditions and burnout.</p>
+</div>
+<!-- Service 4 -->
+<div class="bg-surface-container-lowest p-10 rounded-DEFAULT shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
+<span class="absolute top-4 right-8 font-headline text-7xl text-primary/5 transition-colors group-hover:text-primary/10">04</span>
+<div class="w-16 h-16 bg-primary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">eco</span>
+</div>
+<h3 class="font-headline text-2xl mb-4">Pediatric Homeopathy</h3>
+<p class="text-on-surface-variant leading-relaxed">Gentle, side-effect-free treatments for children's immunity, allergies, and behavioral development.</p>
+</div>
+<!-- Service 5 -->
+<div class="bg-surface-container-lowest p-10 rounded-DEFAULT shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
+<span class="absolute top-4 right-8 font-headline text-7xl text-primary/5 transition-colors group-hover:text-primary/10">05</span>
+<div class="w-16 h-16 bg-primary-fixed rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">group</span>
+</div>
+<h3 class="font-headline text-2xl mb-4">Relationship Counseling</h3>
+<p class="text-on-surface-variant leading-relaxed">Guided sessions to restore communication and emotional intimacy within couples and families.</p>
+</div>
+<div class="bg-primary p-10 rounded-DEFAULT shadow-sm flex flex-col justify-center items-center text-center text-on-primary">
+<h3 class="font-headline text-2xl mb-4">Custom Path</h3>
+<p class="opacity-90 mb-8">Not sure which service is right for you? Book a 15-minute discovery call.</p>
+<a class="bg-surface text-primary px-8 py-3 rounded-full font-medium hover:bg-surface-container-high transition-colors" href="#booking">Contact Expert</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 7: Booking Section -->
+<section class="py-24 px-8 max-w-5xl mx-auto" id="booking">
+<div class="bg-surface-container-lowest rounded-lg shadow-2xl overflow-hidden border border-outline-variant/20">
+<div class="grid grid-cols-1 md:grid-cols-3">
+<!-- Sidebar steps -->
+<div class="bg-primary p-10 text-on-primary">
+<h3 class="font-headline text-3xl mb-12">Book Your Visit</h3>
+<div class="space-y-8 relative">
+<div class="flex items-center gap-4 relative z-10">
+<div class="w-10 h-10 rounded-full bg-surface text-primary flex items-center justify-center font-bold">1</div>
+<span class="font-medium">Select Date</span>
+</div>
+<div class="flex items-center gap-4 relative z-10 opacity-60">
+<div class="w-10 h-10 rounded-full border-2 border-surface/50 text-surface flex items-center justify-center font-bold">2</div>
+<span class="font-medium">Pick Time</span>
+</div>
+<div class="flex items-center gap-4 relative z-10 opacity-60">
+<div class="w-10 h-10 rounded-full border-2 border-surface/50 text-surface flex items-center justify-center font-bold">3</div>
+<span class="font-medium">Your Details</span>
+</div>
+<!-- Line -->
+<div class="absolute left-5 top-5 w-0.5 h-full bg-surface/20 -z-0"></div>
+</div>
+</div>
+<!-- Main Form Area -->
+<div class="md:col-span-2 p-10">
+<div class="mb-8">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline text-xl">October 2024</h4>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="grid grid-cols-7 gap-2 text-center text-sm font-medium text-on-surface-variant mb-4">
+<span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 gap-2">
+<!-- Placeholder dates -->
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors opacity-30">29</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors opacity-30">30</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">1</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">2</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">3</button>
+<button class="aspect-square flex items-center justify-center rounded-lg bg-primary-container text-on-primary-container font-bold shadow-md">4</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">5</button>
+<!-- More dates simplified -->
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">6</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">7</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">8</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">9</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">10</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">11</button>
+<button class="aspect-square flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">12</button>
+</div>
+</div>
+<div>
+<h4 class="font-headline text-xl mb-6">Available Time Slots</h4>
+<div class="flex flex-wrap gap-3">
+<button class="px-6 py-2.5 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all text-sm font-medium">09:00 AM</button>
+<button class="px-6 py-2.5 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all text-sm font-medium">10:30 AM</button>
+<button class="px-6 py-2.5 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all text-sm font-medium">02:00 PM</button>
+<button class="px-6 py-2.5 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all text-sm font-medium">04:30 PM</button>
+</div>
+</div>
+<div class="mt-12 flex justify-end">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg hover:opacity-90 transition-opacity">
+                            Continue
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 8: Contact Section -->
+<section class="py-24 bg-surface-container-low" id="contact">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="bg-surface-container-lowest p-8 rounded-lg flex items-center gap-6 group hover:shadow-md transition-shadow">
+<div class="w-14 h-14 bg-secondary-container rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">call</span>
+</div>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Call Us</p>
+<p class="text-xl font-headline">+1 (555) 098-7654</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-lg flex items-center gap-6 group hover:shadow-md transition-shadow">
+<div class="w-14 h-14 bg-secondary-container rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">mail</span>
+</div>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Email Us</p>
+<p class="text-xl font-headline">hello@drgunja.com</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-lg flex items-center gap-6 group hover:shadow-md transition-shadow">
+<div class="w-14 h-14 bg-secondary-container rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">location_on</span>
+</div>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Office</p>
+<p class="text-xl font-headline">The Sanctuary, Suite 402</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 9: Footer -->
+<footer class="bg-stone-100 dark:bg-stone-950 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+<div class="space-y-4">
+<div class="font-serif text-lg text-emerald-900 dark:text-emerald-200">Dr. Gunja Gupta</div>
+<p class="text-stone-500 text-sm max-w-xs leading-relaxed">Dedicated to holistic mental and physical health since 2008. Combining the best of clinical psychology and traditional homeopathy.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary-container/10 transition-colors" href="#"><span class="material-symbols-outlined text-primary text-sm">social_leaderboard</span></a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary-container/10 transition-colors" href="#"><span class="material-symbols-outlined text-primary text-sm">public</span></a>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-label text-sm tracking-wide text-emerald-900 dark:text-emerald-200 uppercase font-bold mb-2">Practice</h4>
+<a class="text-stone-500 hover:text-emerald-800 transition-colors duration-300 text-sm flex items-center gap-2 group" href="#about"><span class="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>About</a>
+<a class="text-stone-500 hover:text-emerald-800 transition-colors duration-300 text-sm flex items-center gap-2 group" href="#services"><span class="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>Services</a>
+<a class="text-stone-500 hover:text-emerald-800 transition-colors duration-300 text-sm flex items-center gap-2 group" href="#booking"><span class="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>Book Visit</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-label text-sm tracking-wide text-emerald-900 dark:text-emerald-200 uppercase font-bold mb-2">Legal</h4>
+<a class="text-stone-500 hover:text-emerald-800 transition-colors duration-300 text-sm flex items-center gap-2 group" href="#"><span class="material-symbols-outlined text-xs opacity-60">verified_user</span>Privacy Policy</a>
+<a class="text-stone-500 hover:text-emerald-800 transition-colors duration-300 text-sm flex items-center gap-2 group" href="#"><span class="material-symbols-outlined text-xs opacity-60">policy</span>Terms of Service</a>
+<a class="text-stone-500 hover:text-emerald-800 transition-colors duration-300 text-sm flex items-center gap-2 group" href="#"><span class="material-symbols-outlined text-xs opacity-60">accessibility</span>Accessibility</a>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-outline-variant/30 flex flex-col md:row items-center justify-between gap-4 max-w-7xl mx-auto">
+<p class="text-stone-500 text-sm">© 2024 Dr. Gunja Gupta. All rights reserved.</p>
+<div class="flex items-center gap-2 text-stone-400">
+<span class="material-symbols-outlined text-sm">health_and_safety</span>
+<span class="text-[10px] uppercase tracking-widest font-bold">Licensed Holistic Clinic</span>
+</div>
+</div>
+</footer>
+</body></html>

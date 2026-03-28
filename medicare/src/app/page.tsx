@@ -66,7 +66,7 @@ export default function LandingPage() {
       } else {
         throw new Error("Failed to fetch");
       }
-    } catch (error) {
+    } catch {
       console.warn("Backend not reachable, using fallback time slots.");
       setAvailableSlots(["09:00 AM", "10:00 AM", "11:30 AM", "01:00 PM", "02:30 PM", "04:00 PM"]);
     } finally {
@@ -109,7 +109,7 @@ export default function LandingPage() {
       } else {
         throw new Error("Booking failed");
       }
-    } catch (error) {
+    } catch {
       console.warn("Backend not reachable, redirecting to payment page directly.");
       // Fallback
       window.location.href = `/payment?amount=800`;
@@ -122,9 +122,9 @@ export default function LandingPage() {
     <div className="min-h-screen" style={{ background: "var(--color-cream)" }}>
 
       {/* ━━━ TOP BANNER ━━━ */}
-      <div className="text-center py-2 text-[11px] sm:text-xs font-medium tracking-wide"
+      <div className="text-center py-2.5 text-[11px] sm:text-xs font-medium tracking-wide"
         style={{ background: "var(--color-sage-muted)", color: "var(--color-forest)" }}>
-        ✦ Now accepting new patients — <a href="#booking" className="underline font-semibold">Book your visit today</a>
+        ✦ Now accepting new patients — <a href="#booking" className="underline font-semibold hover:opacity-80">Book your visit today</a>
       </div>
 
       {/* ━━━ STICKY NAV ━━━ */}
@@ -157,7 +157,7 @@ export default function LandingPage() {
           {/* CTA + mobile toggle */}
           <div className="flex items-center gap-3">
             <a href="#booking"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2 text-[13px] font-semibold text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-sage)]/20 hover:-translate-y-0.5"
+              className="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 text-[13px] font-semibold text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-sage)]/20 hover:-translate-y-0.5"
               style={{ background: "var(--color-sage-dark)" }}>
               Book appointment
             </a>
@@ -191,8 +191,8 @@ export default function LandingPage() {
       {/* ━━━ HERO ━━━ */}
       <section className="min-h-[calc(100vh-7rem)] flex items-center justify-center px-6 sm:px-8">
         <div className="max-w-3xl mx-auto text-center anim-fadeInUp">
-          <h1 className="text-[2.5rem] sm:text-5xl md:text-[3.5rem] lg:text-[4rem] leading-[1.08] mb-6"
-            style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
+          <h1 className="text-[2.5rem] sm:text-5xl md:text-[3.5rem] lg:text-[4rem] leading-[1.08] mb-7"
+            style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)", letterSpacing: "-0.025em" }}>
             Healing that treats the{" "}
             <em className="not-italic" style={{ fontStyle: "italic" }}>whole</em>{" "}
             person
@@ -207,7 +207,7 @@ export default function LandingPage() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-14 anim-fadeInUp delay-2">
             <a href="#booking"
-              className="flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-sage)]/25 hover:-translate-y-0.5"
+              className="flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-sage)]/25 hover:-translate-y-0.5"
               style={{ background: "var(--color-sage-dark)" }}>
               Book an appointment <ArrowRight size={16} />
             </a>
@@ -363,17 +363,18 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {services.map((s, i) => (
               <div key={s.num}
-                className="relative rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/[0.03] anim-fadeInUp"
+                className="relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1 anim-fadeInUp"
                 style={{
                   background: "var(--color-cream-card)",
                   border: "1px solid var(--color-border)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.02)",
                   animationDelay: `${i * 0.1}s`,
                 }}>
                 {/* Large faint number */}
-                <span className="absolute top-4 right-5 text-[3rem] sm:text-[3.5rem] font-bold leading-none select-none pointer-events-none"
+                <span className="absolute top-5 right-6 text-[3rem] sm:text-[3.5rem] font-bold leading-none select-none pointer-events-none"
                   style={{ fontFamily: "var(--font-heading)", color: "var(--color-cream-dark)", opacity: 0.7 }}>
                   {s.num}
                 </span>
@@ -381,7 +382,7 @@ export default function LandingPage() {
                   style={{ fontFamily: "var(--font-heading)", color: "var(--color-forest)" }}>
                   {s.title}
                 </h3>
-                <p className="text-xs sm:text-[13px] leading-relaxed relative z-10"
+                <p className="text-[13px] sm:text-sm leading-relaxed relative z-10"
                   style={{ color: "var(--color-text-secondary)" }}>
                   {s.desc}
                 </p>
@@ -429,8 +430,8 @@ export default function LandingPage() {
             </div>
 
             {/* Booking Content Card */}
-            <div className="rounded-2xl p-5 sm:p-7 min-h-[400px] flex flex-col"
-              style={{ background: "var(--color-cream-card)", border: "1px solid var(--color-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.03)" }}>
+            <div className="rounded-2xl p-6 sm:p-8 min-h-[400px] flex flex-col"
+              style={{ background: "var(--color-cream-card)", border: "1px solid var(--color-border)", boxShadow: "0 2px 8px rgba(0,0,0,0.02), 0 8px 32px rgba(0,0,0,0.04)" }}>
               
               {/* STEP 1: DATE SELECTION */}
               {activeStep === 0 && (
@@ -539,16 +540,16 @@ export default function LandingPage() {
                   </h3>
                   <div className="space-y-4 mb-6">
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--color-text-secondary)" }}>Full Name</label>
-                      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" className="w-full px-4 py-2.5 rounded-xl border outline-none focus:border-[var(--color-sage-dark)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
+                      <label className="block text-xs font-semibold mb-2 tracking-wide" style={{ color: "var(--color-text-secondary)" }}>Full Name</label>
+                      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--color-text-secondary)" }}>Email Address</label>
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" className="w-full px-4 py-2.5 rounded-xl border outline-none focus:border-[var(--color-sage-dark)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
+                      <label className="block text-xs font-semibold mb-2 tracking-wide" style={{ color: "var(--color-text-secondary)" }}>Email Address</label>
+                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5" style={{ color: "var(--color-text-secondary)" }}>Phone Number</label>
-                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 000-0000" className="w-full px-4 py-2.5 rounded-xl border outline-none focus:border-[var(--color-sage-dark)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
+                      <label className="block text-xs font-semibold mb-2 tracking-wide" style={{ color: "var(--color-text-secondary)" }}>Phone Number</label>
+                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 000-0000" className="w-full px-4 py-3 rounded-xl border outline-none transition-all duration-300 focus:border-[var(--color-sage-dark)] focus:shadow-[0_0_0_3px_rgba(91,126,95,0.1)]" style={{ borderColor: "var(--color-border)", background: "transparent" }} />
                     </div>
                   </div>
                   <div className="mt-auto grid grid-cols-2 gap-3 pt-4">
@@ -600,25 +601,26 @@ export default function LandingPage() {
               },
             ].map((c, i) => (
               <div key={c.label}
-                className="rounded-2xl p-6 sm:p-7 text-center transition-all duration-300 hover:-translate-y-1 anim-fadeInUp"
+                className="rounded-2xl p-7 sm:p-8 text-center transition-all duration-300 hover:-translate-y-1 anim-fadeInUp"
                 style={{
                   background: "var(--color-cream-card)",
                   border: "1px solid var(--color-border)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.02)",
                   animationDelay: `${i * 0.12}s`,
                 }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-4"
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-5"
                   style={{ background: "var(--color-sage-muted)" }}>
-                  <c.icon size={18} style={{ color: "var(--color-sage-dark)" }} />
+                  <c.icon size={20} style={{ color: "var(--color-sage-dark)" }} />
                 </div>
-                <span className="block text-[10px] font-semibold tracking-[0.15em] uppercase mb-2"
+                <span className="block text-[10px] font-semibold tracking-[0.15em] uppercase mb-2.5"
                   style={{ color: "var(--color-text-muted)" }}>
                   {c.label}
                 </span>
-                <h4 className="text-sm sm:text-base font-semibold mb-1"
+                <h4 className="text-sm sm:text-base font-semibold mb-1.5"
                   style={{ color: "var(--color-forest)" }}>
                   {c.title}
                 </h4>
-                <p className="text-xs sm:text-[13px]" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-[13px] sm:text-sm" style={{ color: "var(--color-text-muted)" }}>
                   {c.sub}
                 </p>
               </div>
@@ -628,7 +630,7 @@ export default function LandingPage() {
       </section>
 
       {/* ━━━ FOOTER ━━━ */}
-      <footer className="py-10 px-6 sm:px-8 border-t" style={{ borderColor: "var(--color-border)" }}>
+      <footer className="py-12 px-6 sm:px-8 border-t" style={{ borderColor: "var(--color-border)" }}>
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
             <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
